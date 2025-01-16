@@ -1,0 +1,27 @@
+.quantity-input-button {
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.quantity-input-button:hover {
+    width: 35px;
+    height: 35px;
+    font-size: 25px;
+}
+
+.quantity-input-button:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.quantity-display {
+    margin: 0 40px;
+    text-align: center;
+}

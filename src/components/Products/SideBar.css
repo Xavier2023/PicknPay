@@ -1,0 +1,30 @@
+.products-sidebar {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.products-sidebar h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.sidebar {
+    list-style: none;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 20px;
+
+}
+
+.sidebar-link {
+    display: block;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-link:hover {
+    background-color: #f6f6f6;
+}
