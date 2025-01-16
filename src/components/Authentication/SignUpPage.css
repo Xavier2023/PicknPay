@@ -107,17 +107,17 @@
 }
 
 
-/* .input-box i{
+.input-box .icon{
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
     font-size: 18px;
     transition: 0.5s;
-} */
+}
 
-.input-box input:focus~i,
-.input-box input:valid~i{
+.input-box input:focus~.icon,
+.input-box input:valid~.icon{
     color: var(--lightBulue);
 }
 

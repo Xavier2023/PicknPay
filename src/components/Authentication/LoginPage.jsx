@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { FaEnvelope, FaUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 
 import './SignUpPage.css'
@@ -28,13 +30,17 @@ const LoginPage = () => {
                 <div className="input-box animation">
                     <input type="text" required />
                     <label htmlFor="">Username</label>
-                    <i className='bx bxs-user'></i>
+                    <div className="icon">
+                        <FaUser />
+                    </div>
                 </div>
 
                 <div className="input-box animation">
                     <input type="text" required />
                     <label htmlFor="">Password</label>
-                    <i className='bx bxs-lock-alt'></i>
+                    <div className="icon">
+                        <RiLockPasswordFill />
+                    </div>
                 </div>
                 <button type="submit" className="btn animation">Login</button>
                 <div className="linkTxt animation">
@@ -57,19 +63,25 @@ const LoginPage = () => {
                 <div className="input-box animation">
                     <input type="text" required />
                     <label htmlFor="">Username</label>
-                    <i className='bx bxs-user'></i>
+                    <div className="icon">
+                        <FaUser />
+                    </div>
                 </div>
 
                 <div className="input-box animation">
                     <input type="email" name="" id="" required />
                     <label htmlFor="">Email</label>
-                    <i className='bx bxs-envelope'></i>
+                    <div className="icon">
+                        <FaEnvelope />
+                    </div>
                 </div>
 
                 <div className="input-box animation">
                     <input type="password" required />
                     <label htmlFor="">Password</label>
-                    <i className='bx bxs-lock-alt'></i>
+                    <div className="icon">
+                        <RiLockPasswordFill />
+                    </div>
                 </div>
 
                 <button type="submit" className="btn animation" >Sign Up</button>
