@@ -11,14 +11,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 200px auto;
+    margin: 100px auto;
 }
 
 
 .wrapper{
     position: relative;
     width: 850px;
-    height: 550px;
+    height: 650px;
     background: var(--white);
     border: 2px solid var(--black);
     border-radius: 10px;
@@ -176,7 +176,7 @@ form .linkTxt{
 .wrapper .info-text{
     position: absolute;
     top: 0;
-    width: 60%;
+    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -224,7 +224,7 @@ form .linkTxt{
     position: absolute;
     top: -4px;
     right: 0;
-    width: 950px;
+    width: 850px;
     height: 700px;
     background: blueviolet;
     transform: rotate(10deg) skewY(40deg);
@@ -237,16 +237,6 @@ form .linkTxt{
     transform: rotate(0) skewY(0);
     transition-delay: 0.5s;
 }
-
-
-
-
-
-
-
-
-
-
 
 .wrapper .form-box.register{
     padding: 0 40px 0 60px;
@@ -278,7 +268,7 @@ form .linkTxt{
 .wrapper .info-text.register{
     left: 0;
     text-align: left;
-    padding: 0 150px 60px 40px;
+    padding: 0 100px 60px 40px;
     pointer-events: none;
 }
 
@@ -319,6 +309,15 @@ form .linkTxt{
 }
 
 .wrapper.active .rotate-bg2{
-    transform: rotate(-11deg) skewY(-40deg);
+    transform: rotate(-13deg) skewY(-40deg);
     transition-delay: 1.2s;
+}
+
+.error-msg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    color: red;
+    font-style: italic;
 }
