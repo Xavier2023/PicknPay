@@ -1,30 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { MdOutlineElectricalServices } from "react-icons/md";
 
 import './SideBar.css'
+import useData from '../../hooks/useData'
 
 const SideBar = () => {
+   const { data: categories} = useData('/category')
   return (
     <aside className="products-sidebar">
         <h2>Categories</h2>
         <ul className='sidebar'>
-            <li>
-                <Link to="" className='sidebar-link'><MdOutlineElectricalServices />  Electronics</Link>
-            </li>
-            <li>
-                <Link to="" className='sidebar-link'></Link>
-            </li>
-            <li>
-                <Link to="" className='sidebar-link'></Link>
-            </li>
-            <li>
-                <Link to="" className='sidebar-link'></Link>
-            </li>
-            <li>
-                <Link to="" className='sidebar-link'></Link>
-            </li>
+            {
+                categories && categories.map(cateogry => 
+                    <li key={cateogry._id}>
+                        <Link to={`/products?category=${cateogry.name}`} className='sidebar-link'><img src={`http://localhost:5000/category/${cateogry.image}`} alt="" />{cateogry.name}</Link>
+                    </li>
+                )
+            }
         </ul>
     </aside>
   )

@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useSearchParams } from "react";
 import ProductCard from "../Common/ProductCard";
 
+
+
+
 import "./Products.css";
+import useData from "../../hooks/useData";
+import ProductsCardSkeleton from "./ProductsCardSkeleton";
 
 const Products = () => {
+
+
+ const [search, setSearch ] =  useSearchParams()
+
+  const {data, error, isLoading } = useData("/products", {
+    params: {
+      category: ""
+    }
+  })
+
+  const skeleton = [1, 2, 3, 4, 5, 6, 7, 8]
+
   return (
     <main className="products">
       <div className="products-heading">
@@ -17,14 +34,24 @@ const Products = () => {
         </select>
       </div>
       <div className="product-items">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {
+          error && <em className="product-error">{error}</em>
+        }
+          {isLoading && skeleton.map(s => <ProductsCardSkeleton key={s} />)}
+        {
+          data?.products && data.products.map(product => 
+            <ProductCard 
+              key={product._id}
+              id={product._id}
+              title={product.title}
+              image={product.images[0]}
+              price={product.price}
+              rating={product.reviews.rate}
+              ratingCounts={product.reviews.counts}
+              stock={product.stock}
+              
+            />)
+        }
       </div>
     </main>
   );
