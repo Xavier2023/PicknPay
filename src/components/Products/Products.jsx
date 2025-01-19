@@ -1,25 +1,52 @@
-import React, { useSearchParams } from "react";
+import React, { useEffect, useState }  from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "../Common/ProductCard";
-
 
 
 
 import "./Products.css";
 import useData from "../../hooks/useData";
 import ProductsCardSkeleton from "./ProductsCardSkeleton";
+// import Pagination from "../Common/Pagination";
 
 const Products = () => {
 
-
- const [search, setSearch ] =  useSearchParams()
+ const [search, setSearch] = useSearchParams()
+ const [page, setPage] = useState(1)
+ const category = search.get("category")
 
   const {data, error, isLoading } = useData("/products", {
     params: {
-      category: ""
+      category, 
+      page,
     }
-  })
+  }, [category, page])
 
+  useEffect(() => {
+    setPage(1)
+  }, [category])
+    
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8]
+
+  const handlePageChange = (page) => {
+    const currentParams = Object.fromEntries([...search])
+    setSearch({...currentParams, page: parseInt(currentParams.page) + 1 })
+  }
+  useEffect(() => {
+    const handleScroll = () => {
+      const {scrollTop, clientHeight, scrollHeight} = document.documentElement
+      if(scrollTop + clientHeight >= scrollHeight - 1 && !isLoading && data && page < data.totalPages) {
+        console.log("Reached to Bottom");
+        setPage(prev => prev + 1)
+        
+      }
+    }
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [data, isLoading])
 
   return (
     <main className="products">
@@ -37,9 +64,9 @@ const Products = () => {
         {
           error && <em className="product-error">{error}</em>
         }
-          {isLoading && skeleton.map(s => <ProductsCardSkeleton key={s} />)}
-        {
-          data?.products && data.products.map(product => 
+          {isLoading &&
+          skeleton.map(s => <ProductsCardSkeleton key={s} />)}
+          {data?.products && data.products.map(product => 
             <ProductCard 
               key={product._id}
               id={product._id}
@@ -49,10 +76,9 @@ const Products = () => {
               rating={product.reviews.rate}
               ratingCounts={product.reviews.counts}
               stock={product.stock}
-              
-            />)
-        }
+            />)}
       </div>
+      {/* <Pagination totalPost={data?.totalProducts} postPerPage={8} onClick={handlePageChange} currentPage={page} /> */}
     </main>
   );
 };
