@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 
 import './QuantityInput.css'
 
-const QuantityInput = ({quantityCount, setQuantityCount, stock}) => {
+const QuantityInput = ({quantityCount, setQuantityCount, stock, cartPage, productId}) => {
 
   const handleIncrease = () => {
-    setQuantityCount(prev => prev + 1)
+    {cartPage ?  setQuantityCount("increase", productId) :  setQuantityCount(quantityCount + 1)}
   }
   const handleDecrease = () => {
-    setQuantityCount(prev => prev - 1)
+    {cartPage ?  setQuantityCount("decrease", productId) :  setQuantityCount(quantityCount - 1)}
   }
   return (
     <>

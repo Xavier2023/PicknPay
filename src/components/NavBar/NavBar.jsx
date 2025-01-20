@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { FaSearch, FaHome, FaShoppingBag, FaCartArrowDown } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
@@ -7,8 +7,14 @@ import { SiGnuprivacyguard } from "react-icons/si";
 import { BiSolidShoppingBags } from "react-icons/bi";
 import './NavBar.css'
 import { logout } from '../Services/userServices';
+import UserContext from '../../contexts/UserContext';
+import CartContext from '../../contexts/CartContext';
 
-const NavBar = ({ userInfo, cartCount }) => {
+const NavBar = () => {
+
+    const userInfo = useContext(UserContext)
+    const { cart } = useContext(CartContext)
+    
 
     const handleLogout = () => {
         logout( )
@@ -54,7 +60,7 @@ const NavBar = ({ userInfo, cartCount }) => {
                             <NavLink className='nav-route' to='/logout' onClick={handleLogout}>Logout <IoLogOut /></NavLink>
                         </li>
                         <li>
-                            <NavLink className='nav-route' to='/cart'><p className='cart-count'>{cartCount}</p>Cart <FaCartShopping /></NavLink>
+                            <NavLink className='nav-route' to='/cart'><p className='cart-count'>{cart.length}</p>Cart <FaCartShopping /></NavLink>
                         </li>
                     </>
                 )}

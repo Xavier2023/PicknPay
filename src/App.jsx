@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
+import UserContext from './contexts/UserContext'
+import CartContext from './contexts/CartContext'
 
 import NavBar from './components/NavBar/NavBar'
 import './App.css'
@@ -13,7 +15,7 @@ import LoginPage from './components/Authentication/LoginPage'
 import SignUpPage from './components/Authentication/SignUpPage'
 import { getJWT, getUser } from './components/Services/userServices'
 import setAuthToken from './utils/setAuthToken'
-import { addToCartAPI } from './components/Services/cartServices'
+import { addToCartAPI, decreaseProducttAPI, getCartAPI, increaseProductAPI, removeFormCartAPI } from './components/Services/cartServices'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -58,28 +60,91 @@ const App = () =>{
         toast.error("Failed to add product")
         setCart(cart)
         
-      } )
+      })
+
+    }
+
+    const removeFromCart = (id) => {
+      const OldCart = [...cart]
+      const newCart = OldCart.filter(item => item.product._id !== id)
+      setCart(newCart)
+      removeFormCartAPI(id)
+        .catch(err => {
+          toast.error("Something went wrong")
+          setCart(OldCart)
+        })
+      
+    }
+
+    const updateCart = (type, id) => {
+      const oldCart = [...cart]
+      const updatedCart = [...cart]
+      const productIndex = updatedCart.findIndex(item => item.product._id === id)
+
+      if(type === "increase") {
+        updatedCart[productIndex].quantity += 1
+        setCart(updatedCart)
+        increaseProductAPI(id)
+          .catch(err => {
+            toast.error("Something went wrong")
+            setCart(oldCart)
+          })
+      } 
+      if(type === "decrease"){
+        updatedCart[productIndex].quantity -= 1
+        setCart(updatedCart)
+        decreaseProducttAPI(id)
+          .catch(err => {
+            toast.error("Something went wrong")
+            setCart(oldCart)
+          })
+      }
+      
+    }
+
+  
+
+  const getCart = () => {
+    getCartAPI()
+      .then(res => {
+        setCart(res.data)
+      })
+      .catch(err => {
+        toast.err("Somethingt went wrong")
+      })
   }
 
-  return (
-    <div className='app'>
-      <NavBar 
-        userInfo={userInfo}
-        cartCount={cart.length}
-       />
-      <main>
-        <ToastContainer postiton="bottom-right"/>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/products' element={<ProductsPage />} />
-          <Route path='/products/:id' element={<SingleProduct addToCart={addToCart} />} />
-          <Route path='/cart' element={<CartPage />} />
-          <Route path='/orders' element={<MyOrderPage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/signup' element={<SignUpPage />} />
-        </Routes>
-      </main>
-    </div>
+  useEffect(() => {
+    if(userInfo) {
+      getCart()
+    }
+  }, [userInfo])
+
+  return ( 
+    <UserContext.Provider value={userInfo}>
+      <CartContext.Provider value={{addToCart, removeFromCart, updateCart, cart}}>
+
+      <div className='app'> 
+        <NavBar 
+          cartCount={cart.length}
+        />
+        <main>
+          <ToastContainer postiton="bottom-right"/>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/products' element={<ProductsPage />} />
+            <Route path='/products/:id' element={<SingleProduct />} />
+            <Route path='/cart' element={<CartPage
+            
+            />} />
+            <Route path='/orders' element={<MyOrderPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<SignUpPage />} />
+          </Routes>
+        </main>
+      </div>
+      </CartContext.Provider>
+    </UserContext.Provider>
   )
 }
 

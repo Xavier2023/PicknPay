@@ -69,13 +69,7 @@ const Products = () => {
           {data?.products && data.products.map(product => 
             <ProductCard 
               key={product._id}
-              id={product._id}
-              title={product.title}
-              image={product.images[0]}
-              price={product.price}
-              rating={product.reviews.rate}
-              ratingCounts={product.reviews.counts}
-              stock={product.stock}
+              product={product}
             />)}
       </div>
       {/* <Pagination totalPost={data?.totalProducts} postPerPage={8} onClick={handlePageChange} currentPage={page} /> */}

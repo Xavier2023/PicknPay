@@ -1,38 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import "./ProductCard.css";
 import { Link, useParams } from "react-router-dom";
 import { FaShoppingBasket, FaStar } from "react-icons/fa";
+import CartContext from "../../contexts/CartContext";
+import UserContext from "../../contexts/UserContext";
 
-const ProductCard = ({
-    id, 
-    title, 
-    price, 
-    rating, 
-    ratingCounts, 
-    stock, 
-    image
-  }) => {
+const ProductCard = ({ product }) => {
+
+    const { addToCart } = useContext(CartContext)
+    const user0bj = useContext(UserContext)
   
     return (
       <article className="product-card ">
         <div className="product-image">
-          <Link to={`/products/${id}`}>
-              <img src={`http://localhost:5000/products/${image}`} alt="" />
-          </Link>
+          <Link to={`/products/${product?._id}`}>
+              <img src={`http://localhost:5000/products/${product?.images[0]}`} alt="" />
+          </Link> 
         </div>
         <div className="product-details">
           <h3 className="product-price">
-            <span>&#8358;</span>{(price * 1700).toLocaleString()}
+            <span>&#8358;</span>{(product?.price * 1700).toLocaleString()}
           </h3>
-          <p className="product-title">{title}</p>
+          <p className="product-title">{product?.title}</p>
           <div className="product-info">
               <div className="product-rate">
-                  <p className="product-rating"><FaStar />{rating}</p>
-                  <p className="product-review">({ratingCounts})</p>
+                  <p className="product-rating"><FaStar />{product?.reviews.rate}</p>
+                  <p className="product-review">({product?.reviews.counts})</p>
               </div>
               {
-                stock > 0 && <button className="add-to-cart"><FaShoppingBasket /></button>
+                product?.stock > 0 && user0bj && <button className="add-to-cart" onClick={() => addToCart( product ,1)}><FaShoppingBasket /></button>
               }
           </div>
         </div>
