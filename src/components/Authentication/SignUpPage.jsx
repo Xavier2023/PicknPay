@@ -1,35 +1,57 @@
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEnvelope, FaEyeSlash, FaPhone, FaUser } from "react-icons/fa";
+import { FaAddressCard, FaEnvelope, FaEyeSlash, FaPhone, FaUser } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { TiWarning } from "react-icons/ti";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./SignUpPage.css";
+import { FaCircleUser } from "react-icons/fa6";
+import { login, signup } from "../Services/userServices";
 
 export const schema = z
   .object({
     name: z.string(),
     email: z.string(),
     password: z.string(),
-    confirmPassword: z.string(),
+    // confirmPassword: z.string(),
+    deliveryAddress: z.string()
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords does not match.",
-    path: ["confirmPassword"],
-  });
+  // .refine((data) => data.password === data.confirmPassword, {
+  //   message: "Passwords does not match.",
+  //   path: ["confirmPassword"],
+  // });
+
+
 const SignUpPage = () => {
   const [user, setUser] = useState({
-    name: "",
+    email: "",
     password: "",
   });
+
+  const [profilePic, setProfilePic] = useState()
+  const [formError, setFormError] = useState("")
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
-  const onSignUp = (formData) => console.log(formData);
+
+
+  const onSignUp = async (formData) => {
+    try {
+      await signup(formData, profilePic)
+      window.location = "/"
+      
+    } catch (err) {
+      if(err.response && err.response.status === 400) {
+         setFormError(err.response.data.message)
+      }
+    }
+  }
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -37,26 +59,26 @@ const SignUpPage = () => {
       [name]: value,
     });
   };
-  const onLogin = (e) => {
-    e.preventDefault();
-    console.log(user);
-  };
+  
+  const onLogin = async (e) => {
+      e.preventDefault()
+      try {
+        await login(user)
 
-  const [active, setActive] = useState(false);
-  const [showPassoword, setShowPassword] = useState("password");
-  const passowrdRef = useRef(null);
-
-  const handleShow = () => {
-    setShowPassword(showPassoword === "password" ? "text" : "password");
-
-    if (showPassoword === "password") {
-      passowrdRef.current.type = "password";
-    } else {
-      passowrdRef.current.type = "text";
+        
+        window.location = "/"
+          
+      } catch (err) {
+          if(err.response && err.response.status === 400) {
+              setFormError(err.response.data.message)
+           }
+      }
     }
 
-    // console.log(showPassoword);
-  };
+  const [active, setActive] = useState(false);
+  const passowrdRef = useRef(null);
+
+
 
   const addActive = () => {
     setActive(true);
@@ -65,8 +87,25 @@ const SignUpPage = () => {
   const removeActive = () => {
     setActive(false);
   };
+
+  const [showPassword, setShowPassword] = useState(false)
+    const [passwordIcon, setPasswordIcon] = useState(<FaEyeSlash />)
+    const [inputType, setInputType] = useState("password")
+  
+    const handleShow = () => {
+      if(showPassword === false) {
+          setPasswordIcon(<IoEyeSharp />)
+          setInputType('text')
+          setShowPassword(prev => !prev)
+      } else {
+          setInputType("password")
+          setPasswordIcon(<FaEyeSlash/>)
+          setShowPassword(prev => !prev)
+      }
+    }
   return (
     <div className="signup">
+        {formError && <em className="error-msg">{formError}<TiWarning/></em>}
       <div className={`wrapper ${active && "active"}`}>
         <span className="rotate-bg"></span>
         <span className="rotate-bg2"></span>
@@ -75,8 +114,14 @@ const SignUpPage = () => {
           <h2 className="title animation">Sign Up</h2>
           <form onSubmit={handleSubmit(onSignUp)}>
             <div className="input-box animation">
-              <input type="text" name="name" id="name" {...register("name")} />
-              <label htmlFor="">Username</label>
+              <input 
+                type="text" 
+                name="name" 
+                id="name" 
+                {...register("name")}
+                required
+              />
+              <label htmlFor="name">Username</label>
               <div className="icon">
                 <FaUser />
               </div>
@@ -90,7 +135,7 @@ const SignUpPage = () => {
                 {...register("email")}
                 required
               />
-              <label htmlFor="">Email</label>
+              <label htmlFor="email">Email</label>
               <div className="icon">
                 <FaEnvelope />
               </div>
@@ -98,18 +143,19 @@ const SignUpPage = () => {
 
             <div className="input-box animation">
               <input
-                type="password"
+                type={inputType}
                 name="password"
                 id="password"
                 {...register("password")}
                 required
               />
-              <label htmlFor="">Password</label>
+              <label htmlFor="password">Password</label>
               <div className="icon" onClick={handleShow}>
-                {showPassoword === "password" ? <FaEyeSlash /> : <IoEyeSharp />}
+                {passwordIcon}
               </div>
+
             </div>
-            <div className="input-box animation">
+            {/* <div className="input-box animation">
               <input
                 type="password"
                 name="confirmPassword"
@@ -127,6 +173,30 @@ const SignUpPage = () => {
               <div className="icon" onClick={handleShow}>
                 {showPassoword === "password" ? <FaEyeSlash /> : <IoEyeSharp />}
               </div>
+            </div> */}
+
+            <div className="input-box animation">
+              <input
+                type="deliveryAddress"
+                name="deliveryAddress"
+                id="deliveryAddress"
+                {...register("deliveryAddress")}
+                required
+              />
+              <label htmlFor="deliveryAddress">Delivery Address</label>
+              <div className="icon">
+                <FaAddressCard />
+              </div>
+            </div>
+            <div className='image_input_section animation'>
+              <div className='image_preview'>
+                { profilePic === undefined ? <FaCircleUser /> 
+                : <img src={URL.createObjectURL(profilePic)} id='file-ip-1-preview' />}
+              </div>
+              <label htmlFor='file-ip-1' className='image_label'>
+                  Upload Image
+              </label>
+              <input type='file' onChange={e => setProfilePic(e.target.files[0])} id='file-ip-1' className='image_input' />
             </div>
             <button type="submit" className="btn animation">
               Sign Up
@@ -155,24 +225,22 @@ const SignUpPage = () => {
           <form onSubmit={onLogin}>
             <div className="input-box animation">
               <input
-                type="text"
-                name="name"
-                id="name"
-                value={user.name}
+                type="email"
+                name="email"
+                id="email"
+                value={user.email}
                 onChange={handleChange}
                 required
-                minLength={3}
-                maxLength={8}
               />
-              <label htmlFor="name">Username</label>
+              <label htmlFor="email">Email</label>
               <div className="icon">
-                <FaUser />
+                <FaEnvelope />
               </div>
             </div>
 
             <div className="input-box animation">
               <input
-                type="password"
+                type={inputType}
                 name="password"
                 id="password"
                 value={user.password}
@@ -183,7 +251,7 @@ const SignUpPage = () => {
               />
               <label htmlFor="password">Password</label>
               <div className="icon" onClick={handleShow}>
-                {showPassoword === "password" ? <FaEyeSlash /> : <IoEyeSharp />}
+                {passwordIcon}
               </div>
             </div>
 

@@ -1,32 +1,39 @@
 import React, { useRef, useState } from 'react'
-import { FaEnvelope, FaUser, FaEyeSlash, FaPhone } from "react-icons/fa";
+import { FaEnvelope, FaUser, FaEyeSlash, FaPhone, FaAddressCard } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TiWarning } from 'react-icons/ti';
 import './SignUpPage.css'
+import { FaCircleUser } from 'react-icons/fa6';
+import { login, signup } from '../Services/userServices';
 
 const schema = z.object({
     name: z.string(),
     email: z.string(),
     password: z.string(),
-    confirmPassword: z.string()
-}).refine(data => data.password === data.confirmPassword, {
-    message: "Passwords does not match.",
-    path: ["confirmPassword"]
+    // confirmPassword: z.string(),
+    deliveryAddress: z.string()
 })
+// .refine(data => data.password === data.confirmPassword, {
+//     message: "Passwords does not match.",
+//     path: ["confirmPassword"]
+// })
 
 
 
 const LoginPage = () => {
 
  const [user, setUser] = useState({
-    name: '',
+    email: '',
     password: ''
  })
 
-  const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)})
+ const [profilePic, setProfilePic] = useState()
+ const [formError, setFormError] = useState("")
+
+ const {register, handleSubmit, formState: {errors}} = useForm({resolver: zodResolver(schema)})
 
   const handleChange = (e) => {
         const {name, value} = e.target
@@ -35,14 +42,32 @@ const LoginPage = () => {
             [name]: value
         })
   }
-  const onLogin = () => {
-    console.log(user)
+  const onLogin = async () => {
+    try {
+        await login(user)
+
+        window.location = "/"
+        
+    } catch (err) {
+        if(err.response && err.response.status === 400) {
+            setFormError(err.response.data.message)
+         }
+    }
   }
-  const onSignUp = (formData) => console.log(formData)
   
+  const onSignUp = async (formData) => {
+      try {
+        await signup(formData, profilePic)
+        window.location = "/"
+        
+      } catch (err) {
+        if(err.response && err.response.status === 400) {
+           setFormError(err.response.data.message)
+        }
+      }
+    }
 
   const [active , setActive] = useState(false)
-  const [showPassoword, setShowPassword] = useState('password')
   const passowrdRef = useRef(null)
 
 
@@ -50,21 +75,39 @@ const LoginPage = () => {
     setActive(true)
   }
 
-  const handleShow = () => {
-    setShowPassword(showPassoword === 'password' ? 'text' : 'password')
+//   const handleShow = () => {
+//     setShowPassword(showPassoword === 'password' ? 'text' : 'password')
 
-    if(showPassoword === 'password') {
-        passowrdRef.current.type = 'password'
-    } else {
-        passowrdRef.current.type = 'text'
-    }
-  }
+//     if(showPassoword === 'password') {
+//         passowrdRef.current.type = 'password'
+//     } else {
+//         passowrdRef.current.type = 'text'
+//     }
+//   }
 
   const removeActive = () => {
     setActive(false)
   }
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [passwordIcon, setPasswordIcon] = useState(<FaEyeSlash />)
+  const [inputType, setInputType] = useState("password")
+
+  const handleShow = () => {
+    if(showPassword === false) {
+        setPasswordIcon(<IoEyeSharp />)
+        setInputType('text')
+        setShowPassword(prev => !prev)
+    } else {
+        setInputType("password")
+        setPasswordIcon(<FaEyeSlash/>)
+        setShowPassword(prev => !prev)
+    }
+  }
+
   return (
     <div className='signup'>
+        {formError && <em className="error-msg">{formError}<TiWarning/></em>}
       <div className={`wrapper ${active && 'active'}`}>
         <span className="rotate-bg"></span>
         <span className="rotate-bg2"></span>
@@ -75,22 +118,22 @@ const LoginPage = () => {
 
                 <div className="input-box animation">
                     <input 
-                        type="text"
-                        name='name'
-                        id='name'
-                        value={user.name}
+                        type="email"
+                        name='email'
+                        id='email'
+                        value={user.email}
                         onChange={handleChange}
                         required
                     />
-                    <label htmlFor="name">Username</label>
+                    <label htmlFor="email">Email</label>
                     <div className="icon">
-                        <FaUser />
+                        <FaEnvelope />
                     </div>
                 </div>
 
                 <div className="input-box animation">
                     <input 
-                        type="password"
+                        type={inputType}
                         name='password'
                         id='password'
                         value={user.password}
@@ -99,14 +142,7 @@ const LoginPage = () => {
                          />
                     <label htmlFor="">Password</label>
                     <div className="icon" onClick={handleShow}>
-                        {
-                            showPassoword === 'password' ? (
-                                <IoEyeSharp />
-                            )  : (
-                                <FaEyeSlash />
-                            )
-                        
-                        }
+                        {passwordIcon}
                     </div>
                 </div>
                 <button type="submit" className="btn animation">Login</button>
@@ -155,25 +191,18 @@ const LoginPage = () => {
 
                 <div className="input-box animation">
                     <input 
-                        type="password"
+                        type={inputType}
                         name='password'
                         id='password'
                         {...register('password')}
                         required  />
                     <label htmlFor="">Password</label>
                     <div className="icon" onClick={handleShow}>
-                        {
-                            showPassoword === 'password' ? (
-                                <IoEyeSharp />
-                            )  : (
-                                <FaEyeSlash />
-                            )
-                        
-                        }
+                        {passwordIcon}
                     </div>
                 </div>
 
-                <div className="input-box animation">
+                {/* <div className="input-box animation">
                     <input 
                         type="password" 
                         name="confirmPassword" 
@@ -193,6 +222,30 @@ const LoginPage = () => {
                         
                         }
                     </div>
+                </div> */}
+
+                <div className="input-box animation">
+                    <input
+                        type="text"
+                        name="deliveryAddress"
+                        id="deliveryAddress"
+                        {...register("deliveryAddress")}
+                        required
+                    />
+                    <label htmlFor="deliveryAddress">Delivery Address</label>
+                    <div className="icon">
+                        <FaAddressCard />
+                    </div>
+                </div>
+
+                <div className='image_input_section animation'>
+                    <div className='image_preview'>
+                        {profilePic === undefined ? <FaCircleUser /> : <img src={URL.createObjectURL(profilePic)} id='file-ip-1-preview' />}
+                    </div>
+                    <label htmlFor='file-ip-1' className='image_label'>
+                        Upload Image
+                    </label>
+                    <input type='file' onChange={e => setProfilePic(e.target.files[0])} id='file-ip-1' className='image_input' />
                 </div>
 
                 <button type="submit" className="btn animation" >Sign Up</button>

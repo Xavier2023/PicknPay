@@ -7,7 +7,7 @@ import useData from '../../hooks/useData';
 import { useParams } from 'react-router-dom';
 import LoadingComponent from '../Common/LoadingComponent';
 
-const SingleProduct = () => {
+const SingleProduct = ({addToCart}) => {
 
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantityCount, setQuantityCount] = useState(1)
@@ -16,7 +16,6 @@ const SingleProduct = () => {
   
   
   const {data, error, isLoading} = useData(`/products/${id}`)
-  console.log(data);
 
   return (
     <>
@@ -41,7 +40,7 @@ const SingleProduct = () => {
                 <div className="quantity-input">
                   <QuantityInput quantityCount={quantityCount} setQuantityCount={setQuantityCount} stock={data?.stock} />
                 </div>
-                  <button className='add-cart'><FaCartPlus /></button>
+                  <button className='add-cart' onClick={() => addToCart(data, quantityCount)}><FaCartPlus /></button>
               </div>
             </section>
           )
