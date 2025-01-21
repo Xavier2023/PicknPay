@@ -29,7 +29,13 @@ const ProductCard = ({ product }) => {
                   <p className="product-review">({product?.reviews.counts})</p>
               </div>
               {
-                product?.stock > 0 && user0bj && <button className="add-to-cart" onClick={() => addToCart( product ,1)}><FaShoppingBasket /></button>
+                product?.stock > 0 && user0bj && 
+                <button 
+                  className="add-to-cart" 
+                  onClick={() => addToCart( product ,1)}
+                >
+                  <FaShoppingBasket />
+                </button>
               }
           </div>
         </div>

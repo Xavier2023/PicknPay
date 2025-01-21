@@ -47,8 +47,13 @@ const CartPage = () => {
                         <td>{product.title}</td>
                         <td><span>&#8358;</span>{(product.price * 1700).toLocaleString()}</td>
                         <td className='table-quantity-input'>
-                            <QuantityInput quantityCount={quantity} stock={product.stock} setQuantityCount={updateCart} cartPage={true}
-                            productId={product._id} />
+                            <QuantityInput 
+                                quantityCount={quantity} 
+                                stock={product.stock} 
+                                setQuantityCount={updateCart} 
+                                cartPage={true}
+                                productId={product._id} 
+                            />
                         </td>
                         <td><span>&#8358;</span>{(product.price * 1700*quantity).toLocaleString()}</td>
                         <td className='delete-icon'><MdDeleteForever onClick={() => removeFromCart(product._id)} /></td>

@@ -14,7 +14,15 @@ const SideBar = () => {
             {
                 categories && categories.map(cateogry => 
                     <li key={cateogry._id}>
-                        <Link to={`/products?category=${cateogry.name}`} className='sidebar-link'><img src={`http://localhost:5000/category/${cateogry.image}`} alt="" />{cateogry.name}</Link>
+                        <Link 
+                            to={`/products?category=${cateogry.name}`} 
+                            className='sidebar-link'
+                        ><img 
+                            src={`http://localhost:5000/category/${cateogry.image}`} 
+                            alt="" 
+                        />
+                            {cateogry.name}
+                        </Link>
                     </li>
                 )
             }

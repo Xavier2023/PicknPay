@@ -31,10 +31,19 @@ const SingleProduct = () => {
               <div className="image-selection">
                 <div className="single-product-thumbnails">
                   {
-                    data?.images.map((image, index) => <img src={`http://localhost:5000/products/${image}`} alt={data?.title} className={selectedImage === index ? 'selected-image' : ''} onClick={() =>  setSelectedImage(index)} key={index}  />)  
+                    data?.images.map((image, index) => 
+                      <img src={`http://localhost:5000/products/${image}`} 
+                        alt={data?.title} 
+                        className={selectedImage === index ? 'selected-image' : ''} 
+                        onClick={() =>  setSelectedImage(index)} 
+                        key={index}  
+                      />)  
                   }
                 </div>
-                <img src={`http://localhost:5000/products/${data?.images[selectedImage]}`} alt={data?.title} className='single-product-display' />
+                <img 
+                  src={`http://localhost:5000/products/${data?.images[selectedImage]}`} 
+                  alt={data?.title} 
+                  className='single-product-display' />
               </div>
               <div className="single-product-detalis">
                 <h1 className="single-product-title">{data?.title}</h1>
@@ -45,9 +54,18 @@ const SingleProduct = () => {
                   <>
                     <h2 className="single-product-quantity">Quantity:</h2>
                     <div className="quantity-input">
-                      <QuantityInput quantityCount={quantityCount} setQuantityCount={setQuantityCount} stock={data?.stock} />
+                      <QuantityInput 
+                        quantityCount={quantityCount} 
+                        setQuantityCount={setQuantityCount} 
+                        stock={data?.stock} 
+                      />
                     </div>
-                      <button className='add-cart' onClick={() => addToCart(data, quantityCount)}><FaCartPlus /></button>
+                      <button 
+                        className='add-cart' 
+                        onClick={() => addToCart(data, quantityCount)}
+                      >
+                        <FaCartPlus />
+                      </button>
                     </>
                 }
                   </div>

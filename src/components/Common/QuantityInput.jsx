@@ -13,9 +13,17 @@ const QuantityInput = ({quantityCount, setQuantityCount, stock, cartPage, produc
   }
   return (
     <>
-        <button className="quantity-input-button" onClick={handleDecrease} disabled={quantityCount <= 1}> - </button>
+        <button 
+          className="quantity-input-button" 
+          onClick={handleDecrease} 
+          disabled={quantityCount <= 1}
+        > - </button>
         <p className="quantity-display">{quantityCount}</p>
-         <button className="quantity-input-button" onClick={handleIncrease} disabled={quantityCount >= stock}> + </button>
+         <button 
+          className="quantity-input-button" 
+          onClick={handleIncrease} 
+          disabled={quantityCount >= stock}
+        > + </button>
     </>
   )
 }
