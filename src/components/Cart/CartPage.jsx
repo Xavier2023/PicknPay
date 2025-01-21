@@ -3,11 +3,12 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 
-import './CartPage.css'
 import Table from '../Common/Table';
 import QuantityInput from '../Common/QuantityInput';
 import UserContext from '../../contexts/UserContext';
 import CartContext from '../../contexts/CartContext';
+
+import './CartPage.css'
 
 const CartPage = () => {
 

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import UserContext from './contexts/UserContext'
 import CartContext from './contexts/CartContext'
+import { Route, Routes } from 'react-router-dom'
 
 import NavBar from './components/NavBar/NavBar'
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
 import HomePage from './components/Home/HomePage'
 import ProductsPage from './components/Products/ProductsPage'
 import SingleProduct from './components/SingleProduct/SingleProduct'
@@ -17,8 +16,10 @@ import { getJWT, getUser } from './components/Services/userServices'
 import setAuthToken from './utils/setAuthToken'
 import { addToCartAPI, decreaseProducttAPI, getCartAPI, increaseProductAPI, removeFormCartAPI } from './components/Services/cartServices'
 
+import './App.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+// setting user token
 setAuthToken(getJWT())
 
 const App = () =>{
@@ -39,6 +40,7 @@ const App = () =>{
     
   }, [])
  
+  // Handling adding product to cart both locally and in the database
   const addToCart = (product, quantity) => {
     const updatedCart = [...cart]
     const productIndex = updatedCart.findIndex(item => item.product._id === product._id)
@@ -64,6 +66,7 @@ const App = () =>{
 
     }
 
+    // Handling removing product from cart both locally and in the database
     const removeFromCart = (id) => {
       const OldCart = [...cart]
       const newCart = OldCart.filter(item => item.product._id !== id)
@@ -76,6 +79,7 @@ const App = () =>{
       
     }
 
+    // Handling updating cart product both locally and in the database
     const updateCart = (type, id) => {
       const oldCart = [...cart]
       const updatedCart = [...cart]
@@ -103,7 +107,7 @@ const App = () =>{
     }
 
   
-
+    // getting cart from cart database
   const getCart = () => {
     getCartAPI()
       .then(res => {
@@ -130,6 +134,7 @@ const App = () =>{
         />
         <main>
           <ToastContainer postiton="bottom-right"/>
+          {/* Routes */}
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/products' element={<ProductsPage />} />
