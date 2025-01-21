@@ -129,9 +129,7 @@ const App = () =>{
       <CartContext.Provider value={{addToCart, removeFromCart, updateCart, cart}}>
 
       <div className='app'> 
-        <NavBar 
-          cartCount={cart.length}
-        />
+        <NavBar />
         <main>
           <ToastContainer postiton="bottom-right"/>
           {/* Routes */}
