@@ -14,6 +14,7 @@ import { getSuggestionAPI } from '../Services/productServices';
 const NavBar = () => {
     const [searchInput, setSearchInput] = useState("")
     const [suggestions, setSuggestions] = useState([])
+    const [selectedItem, setSelectedItem] = useState(-1)
     const userInfo = useContext(UserContext)
     const { cart } = useContext(CartContext)
 
@@ -40,20 +41,43 @@ const NavBar = () => {
         setSuggestions([])
     }
 
-    useEffect(() => {
-        if(searchInput.trim() !== "") {
-            getSuggestionAPI(searchInput)
-                    .then(res => {
-                        setSuggestions(res.data)
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        
-                    })
-            
+    const handleKeyDown = (e) => {
+        if(selectedItem < suggestions.length) {
+            if(e.key === "ArrowDown") {
+                setSelectedItem(prev =>prev === suggestions.length - 1 ? 0 : prev + 1)
+            }
+            else if (e.key === "ArrowUp") {
+                setSelectedItem(prev => prev === 0 ? suggestions.length -1 : prev - 1)
+            } else if(e.key === "Enter" && selectedItem > -1) {
+                const suggestion = suggestions[selectedItem]
+                navigate(`/products?search=${suggestion.title}`)
+                setSearchInput("")
+                setSuggestions([])
+            }
         } else {
-            setSuggestions([])
+            setSelectedItem(-1)
         }
+    }
+
+    useEffect(() => {
+        const delaySuggestion = setTimeout(() => {
+            if(searchInput.trim() !== "") {
+                getSuggestionAPI(searchInput)
+                        .then(res => {
+                            setSuggestions(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            
+                        })
+                
+            } else {
+                setSuggestions([])
+            }
+
+        }, 300)
+
+        return () => clearTimeout(delaySuggestion)
     }, [searchInput])
     
     
@@ -65,12 +89,13 @@ const NavBar = () => {
                 <input type="text" className='search-input' placeholder='Search Products'
                 value={searchInput}
                 onChange={handleSearch}
+                onKeyDown={handleKeyDown}
             />
                 <button type='submit' className='search-button'><FaSearch /></button>
 
                 {suggestions.length > 0 && <ul className="search-result">
-                    {suggestions.map(suggestion => 
-                        (<li className="search-result-link" key={suggestion._id}>
+                    {suggestions.map((suggestion, index) => 
+                        (<li className={selectedItem === index ? 'search-result-link active' : 'search-result-link'} key={suggestion._id}>
                             <Link to={`/products?search=${suggestion.title}`} onClick={() => {
                                 setSearchInput('')
                                 setSuggestions([])
