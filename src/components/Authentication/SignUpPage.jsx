@@ -7,7 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./SignUpPage.css";
 import { FaCircleUser } from "react-icons/fa6";
-import { login, signup } from "../Services/userServices";
+import { getUser, login, signup } from "../Services/userServices";
+import { Navigate, useLocation } from "react-router-dom";
 
 export const schema = z
   .object({
@@ -24,6 +25,8 @@ export const schema = z
 
 
 const SignUpPage = () => {
+
+    const location =  useLocation()
     // Login user state
   const [user, setUser] = useState({
     email: "",
@@ -69,8 +72,8 @@ const SignUpPage = () => {
       try {
         await login(user)
 
-        
-        window.location = "/"
+        const {state} = location
+        window.location = state ? state.form : "/"
           
       } catch (err) {
           if(err.response && err.response.status === 400) {
@@ -106,6 +109,9 @@ const SignUpPage = () => {
       }
     }
 
+    if(getUser()) {
+        return <Navigate to="/" /> 
+      }
 
   return (
     <div className="signup">
@@ -248,7 +254,6 @@ const SignUpPage = () => {
                         id="password"
                         value={user.password}
                         onChange={handleChange}
-                        ref={passowrdRef}
                         minLength={8}
                         required
                     />

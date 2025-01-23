@@ -9,12 +9,14 @@ import UserContext from '../../contexts/UserContext';
 import CartContext from '../../contexts/CartContext';
 
 import './CartPage.css'
+import { checkoutAPI } from '../Services/orderServices';
+import { toast } from 'react-toastify';
 
 const CartPage = () => {
 
     const [subTotal, setSubTotal] = useState(0)
     const userObj = useContext(UserContext)
-    const { cart, removeFromCart, updateCart } = useContext(CartContext)
+    const { cart, removeFromCart, updateCart,setCart } = useContext(CartContext)
     
 
     useEffect(() => {
@@ -25,6 +27,19 @@ const CartPage = () => {
 
         setSubTotal((total*1700))
     }, [cart])
+
+    const checkout = () => {
+        const oldCart = [...cart]
+        setCart([])
+        checkoutAPI()
+            .then(() => {
+                toast.success("Order Sucessfully Placed")
+            })
+            .catch(err => {
+                toast.error("Something went wrong")
+                setCart(oldCart)
+            })
+    }
     
   return (
     <section className='cart'>
@@ -78,7 +93,7 @@ const CartPage = () => {
                 </tr>
             </tbody>
         </table>
-        <button className="checkout-btn">Checkout <IoBagCheckOutline /></button>
+        <button className="checkout-btn" onClick={checkout}>Checkout <IoBagCheckOutline /></button>
     </section>
   )
 }

@@ -14,17 +14,19 @@ const Products = () => {
  const [search, setSearch] = useSearchParams()
  const [page, setPage] = useState(1)
  const category = search.get("category")
+ const searchQuery = search.get("search")
 
   const {data, error, isLoading } = useData("/products", {
     params: {
       category, 
       page,
+      search: searchQuery
     }
-  }, [category, page])
+  }, [category, page, searchQuery])
 
   useEffect(() => {
     setPage(1)
-  }, [category])
+  }, [searchQuery, category])
     
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -47,6 +49,8 @@ const Products = () => {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [data, isLoading])
+
+  
 
   return (
     <main className="products">

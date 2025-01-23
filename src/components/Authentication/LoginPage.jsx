@@ -7,7 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { TiWarning } from 'react-icons/ti';
 import './SignUpPage.css'
 import { FaCircleUser } from 'react-icons/fa6';
-import { login, signup } from '../Services/userServices';
+import { getUser, login, signup } from '../Services/userServices';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const schema = z.object({
     name: z.string(),
@@ -24,6 +25,8 @@ const schema = z.object({
 
 
 const LoginPage = () => {
+
+   const location =  useLocation()
 // Login user state
  const [user, setUser] = useState({
     email: '',
@@ -50,8 +53,8 @@ const LoginPage = () => {
   const onLogin = async () => {
     try {
         await login(user)
-
-        window.location = "/"
+        const {state} = location
+        window.location = state ? state.form : "/"
         
     } catch (err) {
         if(err.response && err.response.status === 400) {
@@ -98,6 +101,10 @@ const LoginPage = () => {
         setPasswordIcon(<FaEyeSlash/>)
         setShowPassword(prev => !prev)
     }
+  }
+
+  if(getUser()) {
+    return <Navigate to="/" /> 
   }
 
   return (

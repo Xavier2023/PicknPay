@@ -17,6 +17,7 @@
 }
 
 .search-bar {
+    position: relative;
     display: flex;
     align-items: center;
     width: 400px;
@@ -39,6 +40,35 @@
     background-color: white;
     color: black;
     cursor: pointer;
+}
+
+.search-result {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #cdcdcd;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 999;
+}
+
+
+.search-result-link {
+    display: flex;
+}
+.search-result-link a {
+    text-decoration: none;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px 20px;
+    color: black;
+}
+
+.search-result-link:hover {
+    background-color: #e3e3e3;
 }
 
 .nav-list {

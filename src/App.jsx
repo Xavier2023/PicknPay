@@ -18,6 +18,7 @@ import { addToCartAPI, decreaseProducttAPI, getCartAPI, increaseProductAPI, remo
 
 import './App.css'
 import 'react-toastify/dist/ReactToastify.css'
+import ProtectedRoute from './ProtectedRoute'
 
 // setting user token
 setAuthToken(getJWT())
@@ -126,7 +127,7 @@ const App = () =>{
 
   return ( 
     <UserContext.Provider value={userInfo}>
-      <CartContext.Provider value={{addToCart, removeFromCart, updateCart, cart}}>
+      <CartContext.Provider value={{addToCart, removeFromCart, updateCart,setCart, cart}}>
 
       <div className='app'> 
         <NavBar />
@@ -137,10 +138,10 @@ const App = () =>{
             <Route path='/' element={<HomePage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/products/:id' element={<SingleProduct />} />
-            <Route path='/cart' element={<CartPage
-            
-            />} />
-            <Route path='/orders' element={<MyOrderPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path='/cart' element={<CartPage/>} />
+              <Route path='/orders' element={<MyOrderPage />} />
+            </Route>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignUpPage />} />
           </Routes>
