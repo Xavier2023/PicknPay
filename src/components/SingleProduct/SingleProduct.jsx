@@ -45,7 +45,7 @@ const SingleProduct = () => {
                   alt={data?.title} 
                   className='single-product-display' />
               </div>
-              <div className="single-product-detalis">
+              <div className="single-product-details">
                 <h1 className="single-product-title">{data?.title}</h1>
                 <p className="single-product-description">{data?.description}</p>
                 <p className='single-product-price'><span>&#8358;</span>{(data?.price * 1700).toLocaleString()}</p>

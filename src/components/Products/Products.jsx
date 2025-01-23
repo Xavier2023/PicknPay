@@ -13,6 +13,8 @@ const Products = () => {
 
  const [search, setSearch] = useSearchParams()
  const [page, setPage] = useState(1)
+ const [sortBy, setSortBy] = useState('')
+ const [sortedProducts, setSortedProducts] = useState([])
  const category = search.get("category")
  const searchQuery = search.get("search")
 
@@ -50,13 +52,29 @@ const Products = () => {
     }
   }, [data, isLoading])
 
-  
+  useEffect(() => {
+    if(data && data.products) {
+      const products = [...data.products]
+
+      if(sortBy === "price desc") {
+        setSortedProducts(products.sort((a, b) => b.price - a.price))
+      } else if(sortBy === "price asc") {
+        setSortedProducts(products.sort((a, b) => a.price - b.price))
+      } else if(sortBy === "rate desc") {
+        setSortedProducts(products.sort((a, b) => b.reviews.rate - a.reviews.rate))
+      } else if(sortBy === "rate asc") {
+        setSortedProducts(products.sort((a, b) => a.reviews.rate - b.reviews.rate))
+      } else {
+        setSortedProducts(products)
+      }
+    }
+  }, [sortBy, data])
 
   return (
     <main className="products">
       <div className="products-heading">
         <h3>Products</h3>
-        <select name="sort" id="" className="product-sort">
+        <select name="sort" id="" className="product-sort" onChange={(e) => setSortBy(e.target.value)}>
           <option value="">Relevance</option>
           <option value="price desc">Price Highest to Lowest</option>
           <option value="price asc">Price Lowest to Highest</option>
@@ -70,7 +88,7 @@ const Products = () => {
         }
           {isLoading &&
           skeleton.map(s => <ProductsCardSkeleton key={s} />)}
-          {data?.products && data.products.map(product => 
+          {data?.products && sortedProducts.map(product => 
             <ProductCard 
               key={product._id}
               product={product}

@@ -197,7 +197,7 @@ const SignUpPage = () => {
                             <FaAddressCard />
                         </div>
                     </div>
-                    <div className='image_input_section animation'>
+                    {/* <div className='image_input_section animation'>
                         <div className='image_preview'>
                             { profilePic === undefined ? <FaCircleUser /> 
                             : <img src={URL.createObjectURL(profilePic)} id='file-ip-1-preview' />}
@@ -206,7 +206,7 @@ const SignUpPage = () => {
                             Upload Image
                         </label>
                         <input type='file' onChange={e => setProfilePic(e.target.files[0])} id='file-ip-1' className='image_input' />
-                    </div>
+                    </div> */}
                     <button type="submit" className="btn animation">
                     Sign Up
                     </button>

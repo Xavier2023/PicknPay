@@ -25,3 +25,27 @@
     margin: 0 40px;
     text-align: center;
 }
+
+@media (max-width: 900px) {
+    .quantity-input-button {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .quantity-input-button:hover {
+        width: 20px;
+        height:20px;
+        font-size: 10px;
+    }
+    
+    .quantity-input-button:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+    
+    .quantity-display {
+        margin: 0 10px;
+        text-align: center;
+    }
+}

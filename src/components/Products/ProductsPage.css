@@ -2,3 +2,13 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
 }
+
+@media (max-width: 900px) {
+    .products-page {
+        width: 100vw;
+    }
+
+    .products-page {
+        display: flex;
+    }
+}

@@ -35,3 +35,33 @@
 .sidebar-link:hover {
     background-color: #f6f6f6;
 }
+
+@media (max-width: 900px) {
+
+    .products-sidebar {
+        display: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    
+    .products-sidebar h2 {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+    
+    .sidebar {
+        width: 20px;
+        font-size: 5px;
+        margin-top: 10px;
+    }
+    
+    .sidebar-link {
+        gap: 3px;
+        padding: 5px 10px;
+    }
+    
+    .sidebar-link img {
+        width: 10px;
+    }
+
+}

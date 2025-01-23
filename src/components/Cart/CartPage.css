@@ -87,3 +87,65 @@
     justify-content: center;
     height: 50px;
 }
+
+@media (max-width: 900px) {
+    .cart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        padding: 10px 20px;
+        width: 100vw;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        gap: 16px;
+    }
+    
+    .cart-bill {
+        align-self: flex-end;
+        width: 50px;
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-top: 16px;
+        background-color: #fff;
+    }
+    
+    .cart-bill td {
+        padding: 6px 20px;
+        border: 3px solid #efefef;
+    }
+    
+    .cart-bill td:last-child {
+       text-align: end;
+       width: 50px; 
+    }
+    
+    .cart-bill-total {
+        font-size: 10px;
+    }
+    .checkout-btn {
+        font-size: 13px;
+        padding: 5px 10px;
+        margin: 16px 0;
+    }
+    
+    .delete-icon {
+        font-size: 18px;
+    }
+    
+    .delete-icon:hover {
+        font-size: 18px;
+    }
+    
+    .table-quantity-input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+    }
+}

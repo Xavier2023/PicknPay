@@ -25,3 +25,34 @@
     font-size: 21px;
     font-weight: 600;
 }
+
+@media (max-width: 900px) {
+    .my-orders {
+        padding: 10px 10px;
+        width: 100vw;
+    }
+    .user-info {
+        align-self: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .user-image {
+        font-size: 20px;
+    }
+    
+    .user-name {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .user-email {
+        font-size: 12px;
+    }
+    tbody {
+        font-size: 10px;
+        font-weight: 500;
+    }
+    td {
+        padding: 0 5px;
+    }
+}

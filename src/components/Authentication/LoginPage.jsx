@@ -243,7 +243,7 @@ const LoginPage = () => {
                         </div>
                     </div>
 
-                    <div className='image_input_section animation'>
+                    {/* <div className='image_input_section animation'>
                         <div className='image_preview'>
                             {profilePic === undefined ? 
                             <FaCircleUser /> 
@@ -260,7 +260,7 @@ const LoginPage = () => {
                             onChange={e => setProfilePic(e.target.files[0])} 
                             id='file-ip-1' 
                             className='image_input' />
-                    </div>
+                    </div> */}
 
                     <button type="submit" className="btn animation" >Sign Up</button>
 

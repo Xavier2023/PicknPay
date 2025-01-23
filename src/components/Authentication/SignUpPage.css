@@ -189,7 +189,7 @@ form .linkTxt{
 .wrapper .info-text.login{
     right: 0;
     text-align: right;
-    padding: 0 40px 70px 150px;
+    padding: 0 40px 70px 100px;
 
 }
 
@@ -368,4 +368,164 @@ form .linkTxt{
     border-radius: 5px;
     cursor: pointer;
     width: fit-content;
+}
+
+
+
+@media (max-width: 900px) {
+
+    .signup{
+        margin: 30px auto;
+    }
+    .wrapper{
+        position: relative;
+        width: 90vw;
+        height: 305px;
+    }
+    .form-box h2{
+        margin-bottom: 1px;
+        position: relative;
+        font-size: 16px;
+        color: var(--black);
+        text-align: center;
+    }
+    
+    .form-box h2::after{
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 2px;
+        background: var(--black);
+    }
+    
+    .form-box .input-box{
+        position: relative;
+        width: 100%;
+        height: 45px;
+        margin: 5px 0;
+    }
+    
+    .input-box input{
+        width: 100%;
+        height: 100%;
+        font-size: 8px;
+        padding-right: 5px;
+    }
+    
+    .input-box label{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        font-size: 12px;
+    }
+    
+    
+    
+    .input-box .icon{
+        font-size: 12px;
+    }
+    
+    
+    form .btn{
+        width: 100%;
+        height: 18px;
+        background-color: blueviolet;
+        border-radius: 40px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+    
+    form .linkTxt{
+        font-size: 10px;
+        color: var(--black);
+        text-align: center;
+        margin: 5px 0 5px;
+    }
+
+    .image_preview {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        overflow: hidden;
+        margin-bottom: 5px;
+    }
+    
+    .image_preview img {
+        width: 100%;
+    }
+    
+    .image_preview {
+        font-size: 30px;
+    }
+    
+    
+    .image_label {
+        padding: 2px 4px;
+        margin-bottom: 3px;
+        color: #fff;
+        font-size: 10px;
+    }
+
+    .wrapper .info-text h2{
+        font-size: 16px;
+    }
+    
+    .wrapper .info-text p{
+        font-size: 10px;
+    }
+
+    .wrapper .info-text{
+        position: absolute;
+        top: 0;
+        width: 50%;
+    }
+    
+    .wrapper .info-text.login{
+        right: 0;
+        text-align: right;
+        padding: 0 40px 30px 50px;
+    
+    }
+
+    .wrapper .info-text.register{
+        left: 0;
+        text-align: left;
+        padding: 0 30px 60px 40px;
+        pointer-events: none;
+    }
+
+    .wrapper .form-box.register{
+        padding: 0 30px 0 20px;
+        right: 0;
+    }
+
+    .wrapper .form-box.login{
+        left: 0;
+        padding: 0 10px 0 40px;
+    }
+
+    .wrapper .rotate-bg{
+        position: absolute;
+        top: -4px;
+        right: 0;
+        width: 500px;
+        height: 350px;
+        background: blueviolet;
+        transform: rotate(10deg) skewY(40deg);
+        transform-origin: bottom right;
+        transition: 1.5s ease;
+        transition-delay: 1.6s;
+    }
+
+    .input-box input:focus~label,
+    .input-box input:valid~label{
+    top: 0;
+    color: var(--lightBulue);
+}
+    
 }

@@ -21,3 +21,11 @@
 .common-table tbody tr:nth-child(even) {
     background-color: #f5f5f5;
 }
+
+@media (max-width: 800px) {
+    .common-table thead th {
+        height: 30px;
+        font-size: 10px;
+        padding: 0 5px;
+    } 
+}
