@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { FaCartPlus } from "react-icons/fa";
+import config from "../../config.json"
 
 import './SingleProduct.css'
 import QuantityInput from '../Common/QuantityInput';
@@ -32,7 +33,7 @@ const SingleProduct = () => {
                 <div className="single-product-thumbnails">
                   {
                     data?.images.map((image, index) => 
-                      <img src={`http://localhost:5000/products/${image}`} 
+                      <img src={`${config.backendURL}/products/${image}`} 
                         alt={data?.title} 
                         className={selectedImage === index ? 'selected-image' : ''} 
                         onClick={() =>  setSelectedImage(index)} 
@@ -41,7 +42,7 @@ const SingleProduct = () => {
                   }
                 </div>
                 <img 
-                  src={`http://localhost:5000/products/${data?.images[selectedImage]}`} 
+                  src={`${config.backendURL}/products/${data?.images[selectedImage]}`} 
                   alt={data?.title} 
                   className='single-product-display' />
               </div>

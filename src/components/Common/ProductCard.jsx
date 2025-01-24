@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import config from "../../config.json"
 
 import "./ProductCard.css";
 import { Link, useParams } from "react-router-dom";
@@ -15,7 +16,7 @@ const ProductCard = ({ product }) => {
       <article className="product-card ">
         <div className="product-image">
           <Link to={`/products/${product?._id}`}>
-              <img src={`http://localhost:5000/products/${product?.images[0]}`} alt="" />
+              <img src={`${config.backendURL}/products/${product?.images[0]}`} alt="" />
           </Link> 
         </div>
         <div className="product-details">

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import config from "../../config.json"
 
 
 import './SideBar.css'
@@ -18,7 +19,7 @@ const SideBar = () => {
                             to={`/products?category=${cateogry.name}`} 
                             className='sidebar-link'
                         ><img 
-                            src={`http://localhost:5000/category/${cateogry.image}`} 
+                            src={`${config.backendURL}/category/${cateogry.image}`} 
                             alt="" 
                         />
                             {cateogry.name}
